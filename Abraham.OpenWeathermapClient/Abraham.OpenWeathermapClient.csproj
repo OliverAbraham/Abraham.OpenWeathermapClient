@@ -13,6 +13,8 @@
     <Copyright>Oliver Abraham</Copyright>
     <PackageIcon>Ciridata.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://www.nuget.org/packages/Abraham.OpenWeathermapClient</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/OliverAbraham/Abraham.OpenWeathermapClient</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
