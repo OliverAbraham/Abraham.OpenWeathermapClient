@@ -24,9 +24,10 @@ public class Forecast
 	public WeatherIcon	Icon				{ get; set; }
 	public string?		IconDescription		{ get; set; }
 	public string?		WeatherDescription	{ get; set; }
+    public string	    UnicodeSymbol       { get; set; }
 
-	public override string ToString()
+    public override string ToString()
 	{
-		return $"{Hour} {Temp} {Icon} {IconDescription} {WeatherDescription}";
+		return $"{Hour} {Temp} {Icon} {IconDescription} {UnicodeSymbol} {WeatherDescription}";
 	}
 }

@@ -8,18 +8,15 @@ namespace Abraham.OpenWeatherMap;
 /// </summary>
 public class OpenWeatherMapConnector
 {
-    #region ------------- Properties ----------------------------------------------------------
-    #endregion
-
-
-
     #region ------------- Fields --------------------------------------------------------------
-    private string _apiUrl = "https://api.openweathermap.org/data/3.0/onecall";
-    private string _tempFileName = "saved_weather_forecast.json";
-    private Action<string> _logger = delegate(string logMessage){ };
-    private string _myApiKey = "";
-    private string _lattitude = "";
-    private string _longitude = "";
+    private string         _apiUrl       = "https://api.openweathermap.org/data/3.0/onecall";
+    private string         _tempFileName = "saved_weather_forecast.json";
+    private Action<string> _logger       = delegate(string logMessage){ };
+    private string         _myApiKey     = "";
+    private string         _lattitude    = "";
+    private string         _longitude    = "";
+    private string         _language     = "de";
+    private string         _units        = "metric";
     #endregion
 
 
@@ -83,6 +80,18 @@ public class OpenWeatherMapConnector
         return this;
     }
 
+    public OpenWeatherMapConnector UseLanguage(string language)
+    {
+        _language = language ?? throw new ArgumentNullException(nameof(language));
+        return this;
+    }
+
+    public OpenWeatherMapConnector UseUnits(string units)
+    {
+        _units = units ?? throw new ArgumentNullException(nameof(units));
+        return this;
+    }
+
     /// <summary>
     /// Reads the current temperature and the forecast for the next 24 hours.
     /// </summary>
@@ -124,7 +133,38 @@ public class OpenWeatherMapConnector
         var temperature = FindCurrentTemperature(weather);
         temperature = Math.Round(temperature, 0);
         
-        return new WeatherInfo(temperature, "°C", forecast);
+        return new WeatherInfo(temperature, "°C", forecast, weather, savedWeather);
+    }
+
+    public Forecast FindForecastEntryByTime(WeatherInfo weatherInfo, int hour)
+    {
+        if (weatherInfo is null)
+            throw new ArgumentException($"The parameter '{nameof(weatherInfo)}' cannot be null.");
+        if (hour < 0 || hour > 23)
+            throw new ArgumentException($"The parameter '{nameof(hour)}' must be between 0 and 23.");
+
+        var pointOfTime = DateTime.Now.Date.AddHours(hour);
+        return FindEntry(weatherInfo.Model, weatherInfo.SavedModel, pointOfTime);
+    }
+
+    public string GetUniCodeSymbolForWeatherIcon(WeatherIcon icon)
+    {
+        switch (icon)
+        {
+            case WeatherIcon.Cloud:               return char.ConvertFromUtf32(0x2601);
+            case WeatherIcon.CloudWithLightning:  return char.ConvertFromUtf32(0x26C8);
+            case WeatherIcon.CloudWithRain:       return char.ConvertFromUtf32(0x2614); // 0x1F327);
+            case WeatherIcon.CloudWithSnow:       return char.ConvertFromUtf32(0x2603); // 0x1F328);
+            case WeatherIcon.MediumCloud:         return char.ConvertFromUtf32(0x26C5);
+            case WeatherIcon.SmallCloud:          return char.ConvertFromUtf32(0x26C5); // 0x1F324);
+            case WeatherIcon.Sun:                 return char.ConvertFromUtf32(0x2600);
+            case WeatherIcon.SunCloudRain:        return char.ConvertFromUtf32(0x26C5); // 0x1F326);
+            case WeatherIcon.ThunderCloudAndRain: return char.ConvertFromUtf32(0x26C8);
+            case WeatherIcon.Moon:                return char.ConvertFromUtf32(0x263D); // 0x1F319);
+            case WeatherIcon.Snow:                return char.ConvertFromUtf32(0x2603);
+            case WeatherIcon.Fog:                 return char.ConvertFromUtf32(0x2601); // 0x1F32B);
+            case WeatherIcon.Unknown: default:    return char.ConvertFromUtf32(0x26C4);                
+        }
     }
     #endregion
 
@@ -133,8 +173,9 @@ public class OpenWeatherMapConnector
     #region ------------- Implementation ------------------------------------------------------
     private WeatherModel GetCurrentWeather()
     {
-        //private static string _serverURL = "https://api.openweathermap.org/data/3.0/onecall?lat=53.8667&lon=9.8833&lang=de&units=metric&appid=381450bb926011deb69a30af99566880";
-        var requestUrl = $"{_apiUrl}?lat={_lattitude}&lon={_longitude}&lang=de&units=metric&appid={_myApiKey}&";
+        //example:
+        //"https://api.openweathermap.org/data/3.0/onecall?lat=53.8667&lon=9.8833&lang=de&units=metric&appid=00000000000000000000000000000000";
+        var requestUrl = $"{_apiUrl}?lat={_lattitude}&lon={_longitude}&lang={_language}&units={_units}&appid={_myApiKey}&";
 
         var httpClient = new RestClient();
         var request = new RestRequest(requestUrl, Method.Get);
@@ -216,6 +257,7 @@ public class OpenWeatherMapConnector
             result.Icon = ConvertWeatherIcon(icon.id.ToString());
             result.IconDescription = icon.description;
             result.WeatherDescription = icon.main;
+            result.UnicodeSymbol = GetUniCodeSymbolForWeatherIcon(result.Icon);
         }
 
         _logger($"Hour: {result.Hour}, Temp: {result.Temp}  Icon: {icon?.id} {result.Icon.ToString("G")} IconDesc: {result.IconDescription} Desc: {result.WeatherDescription}");
