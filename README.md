@@ -13,7 +13,7 @@ https://www.apache.org/licenses/LICENSE-2.0
 
 ## Compatibility
 
-The nuget package was build with DotNET 8.
+The nuget package was build with DotNET 6.
 
 
 

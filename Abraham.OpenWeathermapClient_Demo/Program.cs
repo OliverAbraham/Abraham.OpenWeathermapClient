@@ -26,6 +26,10 @@ namespace Abraham.OpenWeatherMap_Demo
         {
             Console.WriteLine("Demo for the Nuget package 'Abraham.OpenWeatherMapClient'");
 
+            #if DEBUG
+            _myApiKey = File.ReadAllText(@"C:\Credentials\OpenWeatherMapApiKey.txt");
+            #endif
+
             var client = new OpenWeatherMapConnector()
                 .UseApiKey(_myApiKey)
                 .UseLocation(lattitude:"53.8667", longitude:"9.8833");
