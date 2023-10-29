@@ -2,7 +2,8 @@
 
 ## OVERVIEW
 
-Queries the openweathermap.org Web API to get the current weather and forecast.
+Gets the current weather and forecast from openweathermap.org Web API.
+You can use it for free, if you register and get an API key.
 
 
 ## License
@@ -40,6 +41,12 @@ The Demo and the nuget source code is well documented.
 
 
 
+## WHAT IS AN API KEY?
+When you register at OpenWeathermap.org, you will get an API key.
+That is a long number, similiar to a password.
+It's your personal key to access the OpenWeatherMap Web API.
+
+
 ## HOW TO INSTALL A NUGET PACKAGE
 This is very simple:
 - Start Visual Studio (with NuGet installed) 
@@ -55,6 +62,14 @@ or from NuGet Command-Line:
     Install-Package Abraham.OpenWeatherMapClient
 
 
+## HOW TO FIND OUT THE LATITUDE AND LONGITUDE OF A CITY
+The API needs these two values. You can find them on Google Maps.
+
+You can use Google Maps to find out the latitude and longitude of a city. Here are the steps:
+1.	Go to Google Maps (https://www.google.com/maps)
+2.	Type in the name of the city you want to find the latitude and longitude for in the search bar.
+3.	Right-click on the location on the map and select "What's here?" from the context menu.
+4.	The latitude and longitude will be displayed in the popup or in the search bar.
 
 
 
@@ -75,3 +90,16 @@ https://github.com/OliverAbraham/Abraham.OpenWeatherMapClient
 The Nuget Package is hosted at: 
 
 https://www.nuget.org/packages/Abraham.OpenWeatherMapClient
+
+
+
+## SCREENSHOTS
+
+This shows the demo app getting the current temperature:
+![](Screenshots/screenshot1.jpg)
+
+
+# MAKE A DONATION !
+
+If you find this application useful, buy me a coffee!
+I would appreciate a small donation on https://www.buymeacoffee.com/oliverabraham
