@@ -19,7 +19,6 @@ namespace Abraham.OpenWeatherMap_Demo
     /// 
     internal class Program
     {
-        // Weather in northern Germany
         private static string _myApiKey = "ENTER YOUR API KEY HERE - YOU'LL GET ONE FOR FREE AT https://openweathermap.org/api";
 
         static void Main()

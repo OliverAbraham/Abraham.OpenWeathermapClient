@@ -1,5 +1,7 @@
 # Abraham.OpenWeatherMapClient
 
+![](https://img.shields.io/github/downloads/oliverabraham/Abraham.OpenWeatherMapClient/total) ![](https://img.shields.io/github/license/oliverabraham/Abraham.OpenWeatherMapClient) ![](https://img.shields.io/github/languages/count/oliverabraham/Abraham.OpenWeatherMapClient) ![GitHub Repo stars](https://img.shields.io/github/stars/oliverabraham/Abraham.OpenWeatherMapClient?label=repo%20stars) ![GitHub Repo stars](https://img.shields.io/github/stars/oliverabraham?label=user%20stars)
+
 ## OVERVIEW
 
 Gets the current weather and forecast from openweathermap.org Web API.
@@ -24,13 +26,15 @@ Install the Nuget package "Abraham.OpenWeatherMapClient" into your application (
 
 Add the following code:
 ```C#
-    var client = new OpenWeatherMapConnector()
-        .UseApiKey(_myApiKey)
-        .UseLocation(lattitude:"53.8667", longitude:"9.8833");
+using Abraham.OpenWeatherMap;
 
-    var weatherInfo = client.ReadCurrentTemperatureAndForecast();
+var client = new OpenWeatherMapConnector()
+    .UseApiKey(_myApiKey)
+    .UseLocation(lattitude:"53.8667", longitude:"9.8833");
 
-    Console.WriteLine($"Current temperature: {weatherInfo.CurrentTemperature} {weatherInfo.Unit}");
+var weatherInfo = client.ReadCurrentTemperatureAndForecast();
+
+Console.WriteLine($"Current temperature: {weatherInfo.CurrentTemperature} {weatherInfo.Unit}");
 ```
 
 
@@ -100,6 +104,7 @@ This shows the demo app getting the current temperature:
 
 
 # MAKE A DONATION !
-
 If you find this application useful, buy me a coffee!
 I would appreciate a small donation on https://www.buymeacoffee.com/oliverabraham
+
+<a href="https://www.buymeacoffee.com/app/oliverabraham" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
